@@ -3,15 +3,14 @@ import { persist } from "zustand/middleware";
 
 interface User {
   id: string;
-  nickname: string;
-  email?: string;
-  isAnonymous: boolean;
+  email: string;
 }
 
 interface AuthState {
   user: User | null;
-  token: string | null;
-  setAuth: (user: User, token: string) => void;
+  accessToken: string | null;
+  refreshToken: string | null;
+  setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   clearAuth: () => void;
 }
 
@@ -19,9 +18,11 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
-      setAuth: (user, token) => set({ user, token }),
-      clearAuth: () => set({ user: null, token: null }),
+      accessToken: null,
+      refreshToken: null,
+      setAuth: (user, accessToken, refreshToken) =>
+        set({ user, accessToken, refreshToken }),
+      clearAuth: () => set({ user: null, accessToken: null, refreshToken: null }),
     }),
     { name: "toyoko-auth" }
   )
