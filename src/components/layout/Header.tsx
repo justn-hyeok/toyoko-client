@@ -22,11 +22,19 @@ const Header = ({ className, activeTitle }: HeaderProps) => {
             로고
           </span>
         </Link>
-        {activeTitle && (
+        <div className="flex gap-24"> 
           <h1 className="font-['Pretendard',sans-serif] font-bold text-[20px] text-white tracking-[0.1px]">
-            {activeTitle}
+            대전
           </h1>
-        )}
+
+          <h1 className="font-['Pretendard',sans-serif] font-bold text-[20px] text-white tracking-[0.1px]">
+            마이페이지
+          </h1>
+
+          <h1 className="font-['Pretendard',sans-serif] font-bold text-[20px] text-white tracking-[0.1px]">
+            사용자님
+          </h1>
+        </div>
       </div>
     </header>
   );

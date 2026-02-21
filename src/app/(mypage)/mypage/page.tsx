@@ -40,7 +40,7 @@ const MyPage = () => {
         backgroundSize: '24px 24px',
       }}
     >
-      <Header activeTitle="마이페이지" />
+      <Header/>
 
       {/* Background Decorative Elements */}
       <div className="fixed top-[-216px] right-[-250px] w-[698px] h-[698px] opacity-80 pointer-events-none rotate-[11.94deg] z-0">
@@ -74,6 +74,9 @@ const MyPage = () => {
                     <div>
                       <p className="text-[20px] font-semibold text-[#222]">
                         {item.title}
+                      </p>
+                      <p className="text-[14px] font-semibold text-[#CCC]">
+                        {item.status}
                       </p>
                     </div>
                     <p className="text-[15px] text-[#555]">{item.date}</p>
