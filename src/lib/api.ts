@@ -12,12 +12,14 @@ async function request<T>(
 
   const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
 
+  const json = await res.json().catch(() => ({}));
+
   if (!res.ok) {
-    const error = await res.json().catch(() => ({}));
-    throw new Error(error.message ?? `${res.status} ${res.statusText}`);
+    const msg = Array.isArray(json.message) ? json.message[0] : json.message;
+    throw new Error(msg ?? `${res.status} ${res.statusText}`);
   }
 
-  return res.json();
+  return json.data;
 }
 
 export const api = {
