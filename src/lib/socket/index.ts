@@ -29,5 +29,4 @@ export function connectSocket(token: string): AppSocket {
 
 export function disconnectSocket() {
   socket?.disconnect();
-  socket = null;
 }

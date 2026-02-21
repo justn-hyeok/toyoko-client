@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/auth";
-import { connectSocket, disconnectSocket, getSocket } from "@/lib/socket";
+import { connectSocket, disconnectSocket } from "@/lib/socket";
 
 export function useSocketInit() {
   const accessToken = useAuthStore((s) => s.accessToken);
@@ -12,25 +12,21 @@ export function useSocketInit() {
 
     const socket = connectSocket(accessToken);
 
-    socket.on("socket.connected", ({ userId, email }) => {
+    const onConnected = ({ userId, email }: { userId: string; email: string }) => {
       console.log("[socket] connected", { userId, email });
-    });
+    };
 
-    socket.on("socket.error", ({ event, message }) => {
+    const onError = ({ event, message }: { event?: string; message: string }) => {
       console.error("[socket] error", { event, message });
-      disconnectSocket();
-    });
+    };
+
+    socket.on("socket.connected", onConnected);
+    socket.on("socket.error", onError);
 
     return () => {
-      socket.off("socket.connected");
-      socket.off("socket.error");
+      socket.off("socket.connected", onConnected);
+      socket.off("socket.error", onError);
+      disconnectSocket();
     };
   }, [accessToken]);
-
-  useEffect(() => {
-    return () => {
-      const s = getSocket();
-      if (s.connected) disconnectSocket();
-    };
-  }, []);
 }
