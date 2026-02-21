@@ -120,18 +120,25 @@ export interface ServerToClientEvents {
       | {
           roomId: string;
           resultStatus: ResultStatus;
-          winner: PlayerRole | null;
+          winner: PlayerRole | "UNDECIDED" | null;
           confidence: number;
           shortReason: string;
           aSummary: string;
           bSummary: string;
           isFallback: boolean;
-          rating: unknown;
+          rating: {
+            playerAScoreDelta: number;
+            playerBScoreDelta: number;
+            playerAMmrDelta: number;
+            playerBMmrDelta: number;
+            playerAScoreAfter: number;
+            playerBScoreAfter: number;
+          };
         }
       | {
           roomId: string;
           resultStatus: ResultStatus;
-          winner: PlayerRole | null;
+          winner: PlayerRole | "UNDECIDED" | null;
           aSummary: string;
           bSummary: string;
         }
