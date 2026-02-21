@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { EyeOff, Eye } from "lucide-react";
@@ -23,7 +23,9 @@ import { useAuthStore } from "@/store/auth";
 
 const SignupPage = () => {
   const router = useRouter();
-  const { setAuth } = useAuthStore();
+  const setAuth = useAuthStore((s) => s.setAuth);
+  const _hasHydrated = useAuthStore((s) => s._hasHydrated);
+  const accessToken = useAuthStore((s) => s.accessToken);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -31,6 +33,12 @@ const SignupPage = () => {
   const [passwordError, setPasswordError] = useState("");
 
   const primaryColor = `#${color.primary}`;
+
+  useEffect(() => {
+    if (_hasHydrated && accessToken) {
+      router.push("/");
+    }
+  }, [_hasHydrated, accessToken, router]);
 
   const { mutate: register, isPending } = useMutation({
     mutationFn: () => authApi.register(email, password),
