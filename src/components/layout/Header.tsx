@@ -73,22 +73,36 @@ const Header = ({ className, variant = 'default', onExitClick }: HeaderProps) =>
               랭킹
             </Link>
 
-            <Link
-              href="/mypage"
-              className={cn(
-                "font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] transition-colors",
-                pathname === "/mypage" ? "text-[#ff00b7]" : "text-white hover:opacity-70"
-              )}
-            >
-              {displayName}님
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  href="/mypage"
+                  className={cn(
+                    "font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] transition-colors",
+                    pathname === "/mypage" ? "text-[#ff00b7]" : "text-white hover:opacity-70"
+                  )}
+                >
+                  {displayName}님
+                </Link>
 
-            <button
-              onClick={handleLogout}
-              className="font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] text-[#666] hover:text-white transition-colors"
-            >
-              로그아웃
-            </button>
+                <button
+                  onClick={handleLogout}
+                  className="font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] text-[#666] hover:text-white transition-colors"
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className={cn(
+                  "font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] transition-colors",
+                  pathname === "/login" ? "text-[#ff00b7]" : "text-white hover:opacity-70"
+                )}
+              >
+                로그인
+              </Link>
+            )}
           </div>
         )}
       </div>
