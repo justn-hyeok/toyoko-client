@@ -24,7 +24,7 @@ const Header = ({ className, variant = 'default', onExitClick }: HeaderProps) =>
   const handleLogout = () => {
     clearAuth();
     disconnectSocket();
-    router.push("/");
+    router.push("/login");
   };
 
   return (
