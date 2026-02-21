@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   className?: string;
@@ -9,6 +10,7 @@ interface HeaderProps {
 }
 
 const Header = ({ className, activeTitle }: HeaderProps) => {
+  const router = useRouter();
   return (
     <header
       className={cn(
@@ -23,11 +25,11 @@ const Header = ({ className, activeTitle }: HeaderProps) => {
           </span>
         </Link>
         <div className="flex gap-24"> 
-          <h1 className="font-['Pretendard',sans-serif] font-bold text-[20px] text-white tracking-[0.1px]">
+          <h1 className="font-['Pretendard',sans-serif] font-bold text-[20px] text-white tracking-[0.1px]"  onClick={() => {router.push("/fight")}}>
             대전
           </h1>
 
-          <h1 className="font-['Pretendard',sans-serif] font-bold text-[20px] text-white tracking-[0.1px]">
+          <h1 className="font-['Pretendard',sans-serif] font-bold text-[20px] text-white tracking-[0.1px]" onClick={() => {router.push("/mypage")}}>
             마이페이지
           </h1>
 
