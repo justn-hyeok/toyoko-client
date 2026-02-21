@@ -11,7 +11,7 @@ interface FightButtonProps {
 const FightButton = ({ className }: FightButtonProps) => {
   const router = useRouter();
   return (
-    <div className={cn("z-50", className)} onClick={() => router.push("/fight")}>
+    <div className={cn("z-50", className)} onClick={() => router.push("/conversation")}>
       <motion.button
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

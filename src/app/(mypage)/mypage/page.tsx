@@ -2,16 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Header from "@/components/layout/Header";
 import HistoryDetailModal from "@/components/mypage/HistoryDetailModal";
 
 const MyPage = () => {
   const chatHistory = [
-    { title: "00과 대화", status: "승리", date: "25.12.04" },
-    { title: "00과 대화", status: "승리", date: "25.12.04" },
-    { title: "00과 대화", status: "승리", date: "25.12.04" },
-    { title: "00과 대화", status: "승리", date: "25.12.04" },
-    { title: "00과 대화", status: "승리", date: "25.12.04" },
+    { id: 1, title: "00과 대화", status: "승리", date: "25.12.04" },
+    { id: 2, title: "00과 대화", status: "승리", date: "25.12.04" },
+    { id: 3, title: "00과 대화", status: "승리", date: "25.12.04" },
+    { id: 4, title: "00과 대화", status: "승리", date: "25.12.04" },
+    { id: 5, title: "00과 대화", status: "승리", date: "25.12.04" },
   ];
 
   const watchHistory = [
@@ -69,8 +70,12 @@ const MyPage = () => {
             <h3 className="text-[25px] font-semibold mb-[45px]">대화 기록</h3>
             <div className="space-y-[20px]">
               {chatHistory.map((item, index) => (
-                <div key={index} className="space-y-[7px]">
-                  <div className="flex justify-between items-start">
+                <Link 
+                  key={index} 
+                  href={`/mypage/chat-history/${item.id}`}
+                  className="block space-y-[7px] group cursor-pointer"
+                >
+                  <div className="flex justify-between items-start group-hover:opacity-70 transition-opacity">
                     <div>
                       <p className="text-[20px] font-semibold text-[#222]">
                         {item.title}
@@ -82,7 +87,7 @@ const MyPage = () => {
                     <p className="text-[15px] text-[#555]">{item.date}</p>
                   </div>
                   <div className="h-[1px] w-full bg-[#C0C0C0]" />
-                </div>
+                </Link>
               ))}
             </div>
           </div>
