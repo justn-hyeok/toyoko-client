@@ -1,7 +1,9 @@
-"use client"
+'use client'
 
+import { useState } from "react";
 import Image from "next/image";
 import Header from "@/components/layout/Header";
+import HistoryDetailModal from "@/components/mypage/HistoryDetailModal";
 
 const MyPage = () => {
   const chatHistory = [
@@ -13,14 +15,22 @@ const MyPage = () => {
   ];
 
   const watchHistory = [
-    { title: "00과 00 대화", date: "25.12.04" },
-    { title: "00 vs 00 대화", date: "25.12.04" },
-    { title: "00 vs 00 대화", date: "25.12.04" },
-    { title: "00 vs 00 대화", date: "25.12.04" },
-    { title: "00 vs 00 대화", date: "25.12.04" },
-    { title: "00 vs 00 대화", date: "25.12.04" },
-    { title: "00 vs 00 대화", date: "25.12.04" },
+    { title: "00과 00 대화", date: "25.12.04", summary: "AI가 요약한 첫 번째 대화 내용입니다." },
+    { title: "00 vs 00 대화", date: "25.12.04", summary: "AI가 요약한 두 번째 대화 내용입니다." },
+    { title: "00 vs 00 대화", date: "25.12.04", summary: "AI가 요약한 세 번째 대화 내용입니다." },
+    { title: "00 vs 00 대화", date: "25.12.04", summary: "AI가 요약한 네 번째 대화 내용입니다." },
+    { title: "00 vs 00 대화", date: "25.12.04", summary: "AI가 요약한 다섯 번째 대화 내용입니다." },
+    { title: "00 vs 00 대화", date: "25.12.04", summary: "AI가 요약한 여섯 번째 대화 내용입니다." },
+    { title: "00 vs 00 대화", date: "25.12.04", summary: "AI가 요약한 일곱 번째 대화 내용입니다." },
   ];
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<{ title: string; summary: string } | null>(null);
+
+  const handleWatchItemClick = (item: { title: string; summary: string }) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
 
   return (
     <div 
@@ -79,7 +89,11 @@ const MyPage = () => {
             <h3 className="text-[25px] font-semibold mb-[45px]">시청 기록</h3>
             <div className="space-y-[25px]">
               {watchHistory.map((item, index) => (
-                <div key={index} className="space-y-[7px]">
+                <div 
+                  key={index} 
+                  className="space-y-[7px] cursor-pointer hover:opacity-70 transition-opacity"
+                  onClick={() => handleWatchItemClick(item)}
+                >
                   <div className="flex justify-between items-center">
                     <p className="text-[20px] font-semibold text-[#222]">
                       {item.title}
@@ -93,6 +107,13 @@ const MyPage = () => {
           </div>
         </div>
       </main>
+
+      <HistoryDetailModal
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        title={selectedItem?.title || ""}
+        summary={selectedItem?.summary || ""}
+      />
     </div>
   );
 };
