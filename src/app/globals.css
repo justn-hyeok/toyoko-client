@@ -124,3 +124,9 @@
     @apply bg-background text-foreground;
   }
 }
+@layer utilities {
+  .bg-dots {
+    background-image: radial-gradient(#333 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+}
