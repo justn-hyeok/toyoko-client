@@ -67,6 +67,7 @@ export interface ServerToClientEvents {
   "matchmaking.matched": (payload: RoomSnapshot) => void;
 
   "room.reconnected": (payload: RoomSnapshot) => void;
+  "spectator.joined": (payload: { roomId: string; spectatorCount: number }) => void;
   "room.leave": (payload: { roomId: string; userId: string; role: PlayerRole; leaveReason: string }) => void;
 
   "timer.sync": (payload: {
