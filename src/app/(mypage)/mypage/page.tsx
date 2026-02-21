@@ -23,7 +23,13 @@ const MyPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white font-['Pretendard',sans-serif] overflow-hidden overscroll-none relative">
+    <div 
+      className="min-h-screen bg-black text-white font-['Pretendard',sans-serif] overflow-hidden overscroll-none relative"
+      style={{
+        backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 1px)',
+        backgroundSize: '24px 24px',
+      }}
+    >
       <Header activeTitle="마이페이지" />
 
       {/* Background Decorative Elements */}
