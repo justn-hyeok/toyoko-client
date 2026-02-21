@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { useAuthStore } from "@/store/auth";
+import { disconnectSocket } from "@/lib/socket";
 
 interface HeaderProps {
   className?: string;
@@ -17,7 +18,14 @@ const Header = ({ className, variant = 'default', onExitClick }: HeaderProps) =>
   const router = useRouter();
   const pathname = usePathname();
   const user = useAuthStore((s) => s.user);
+  const clearAuth = useAuthStore((s) => s.clearAuth);
   const displayName = user?.email?.split("@")[0] ?? "사용자";
+
+  const handleLogout = () => {
+    clearAuth();
+    disconnectSocket();
+    router.push("/");
+  };
 
   return (
     <header
@@ -74,6 +82,13 @@ const Header = ({ className, variant = 'default', onExitClick }: HeaderProps) =>
             >
               {displayName}님
             </Link>
+
+            <button
+              onClick={handleLogout}
+              className="font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] text-[#666] hover:text-white transition-colors"
+            >
+              로그아웃
+            </button>
           </div>
         )}
       </div>
