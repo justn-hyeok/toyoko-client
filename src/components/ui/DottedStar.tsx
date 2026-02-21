@@ -18,7 +18,8 @@ const DottedStar = ({
   dotColor = 'rgba(255, 255, 255, 0.4)'
 }: DottedStarProps) => {
   return (
-    <div 
+    <div
+      aria-hidden="true"
       className={cn("relative shrink-0", className)}
       style={{
         maskImage: `url(${maskSrc})`,

@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils";
+import type { RankingEntry } from "@/lib/api/rooms";
 
 interface RankingListItemProps {
   rank: number;
@@ -26,22 +26,20 @@ const RankingListItem = ({ rank, name, points }: RankingListItemProps) => {
   );
 };
 
-const RankingList = () => {
-  // Mock data for ranks 4 and below
-  const rankings = [
-    { rank: 4, name: "은지", points: 700 },
-    { rank: 5, name: "은지", points: 650 },
-    { rank: 6, name: "은지", points: 600 },
-    { rank: 7, name: "은지", points: 550 },
-    { rank: 8, name: "은지", points: 500 },
-    { rank: 9, name: "은지", points: 450 },
-    { rank: 10, name: "은지", points: 400 },
-  ];
+interface RankingListProps {
+  rankings: RankingEntry[];
+}
 
+const RankingList = ({ rankings }: RankingListProps) => {
   return (
     <div className="flex flex-col gap-[25px] w-full max-w-[1081px]">
-      {rankings.map((user, index) => (
-        <RankingListItem key={index} {...user} />
+      {rankings.map((user) => (
+        <RankingListItem
+          key={user.userId}
+          rank={user.rank}
+          name={user.email.split("@")[0]}
+          points={user.score}
+        />
       ))}
     </div>
   );

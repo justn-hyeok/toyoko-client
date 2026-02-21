@@ -5,16 +5,20 @@ import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
+import { useAuthStore } from "@/store/auth";
 
 interface HeaderProps {
   className?: string;
   variant?: 'default' | 'back' | 'exit';
+  onExitClick?: () => void;
 }
 
-const Header = ({ className, variant = 'default' }: HeaderProps) => {
+const Header = ({ className, variant = 'default', onExitClick }: HeaderProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  
+  const user = useAuthStore((s) => s.user);
+  const displayName = user?.email?.split("@")[0] ?? "사용자";
+
   return (
     <header
       className={cn(
@@ -24,15 +28,21 @@ const Header = ({ className, variant = 'default' }: HeaderProps) => {
     >
       <div className="flex items-center justify-between w-full max-w-[1071px]">
         {variant === 'back' ? (
-          <button 
-            onClick={() => router.back()} 
+          <button
+            onClick={() => router.back()}
             className="flex items-center justify-center transition-opacity hover:opacity-70 text-white"
           >
             <ArrowLeft size={32} />
           </button>
         ) : variant === 'exit' ? (
-          <button 
-            onClick={() => router.push("/")} 
+          <button
+            onClick={() => {
+              if (onExitClick) {
+                onExitClick();
+              } else {
+                router.push("/");
+              }
+            }}
             className="flex h-[38px] items-center justify-center transition-opacity hover:opacity-70 text-white font-['Pretendard',sans-serif] font-bold text-[20px]"
           >
             나가기
@@ -44,26 +54,26 @@ const Header = ({ className, variant = 'default' }: HeaderProps) => {
         )}
 
         {variant !== 'exit' && (
-          <div className="flex gap-24">    
-            <button 
-              onClick={() => router.push("/ranking")}
+          <div className="flex gap-24">
+            <Link
+              href="/ranking"
               className={cn(
                 "font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] transition-colors",
                 pathname === "/ranking" ? "text-[#ff00b7]" : "text-white hover:opacity-70"
               )}
             >
               랭킹
-            </button>
+            </Link>
 
-            <button 
-              onClick={() => router.push("/mypage")}
+            <Link
+              href="/mypage"
               className={cn(
                 "font-['Pretendard',sans-serif] font-bold text-[20px] tracking-[0.1px] transition-colors",
                 pathname === "/mypage" ? "text-[#ff00b7]" : "text-white hover:opacity-70"
               )}
             >
-              사용자님
-            </button>
+              {displayName}님
+            </Link>
           </div>
         )}
       </div>

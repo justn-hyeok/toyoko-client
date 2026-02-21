@@ -36,7 +36,12 @@ const MessageInput = ({ currentScore, onSendMessage, className }: MessageInputPr
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
           placeholder="내용을 입력해 주세요."
           className="w-full h-full bg-white rounded-[100px] px-[35px] py-[15px] pr-[60px] text-[15px] font-['Pretendard',sans-serif] text-[#222] placeholder:text-[#777] outline-none"
         />

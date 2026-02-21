@@ -1,30 +1,33 @@
 "use client"
 
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "@/lib/utils";
 
 interface ResultModalProps {
   isOpen: boolean;
   isWin: boolean;
+  title?: string;
+  subtitle?: string;
+  reasoning?: string;
   onExit: () => void;
 }
 
-const ResultModal = ({ isOpen, isWin, onExit }: ResultModalProps) => {
+const ResultModal = ({ isOpen, isWin, title, subtitle, reasoning, onExit }: ResultModalProps) => {
+  const displayTitle = title ?? (isWin ? "승리" : "패배");
+  const displaySubtitle = subtitle ?? (isWin ? "축하해요!" : "아쉽네요, 다음 기회에!");
+
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center">
-          {/* Overlay */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onExit}
           />
-          
-          {/* Modal Content */}
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -32,11 +35,14 @@ const ResultModal = ({ isOpen, isWin, onExit }: ResultModalProps) => {
           >
             <div className="flex flex-col items-center gap-[10px] text-center">
               <h3 className="font-['Pretendard',sans-serif] font-bold text-[25px] text-[#222]">
-                {isWin ? "승리" : "패배"}
+                {displayTitle}
               </h3>
               <p className="font-['Pretendard',sans-serif] font-medium text-[20px] text-[#555]">
-                {isWin ? "축하해요!" : "아쉽네요, 다음 기회에!"}
+                {displaySubtitle}
               </p>
+              {reasoning && (
+                <p className="text-[#999] text-[13px] text-center mt-2 px-4">{reasoning}</p>
+              )}
             </div>
 
             <button

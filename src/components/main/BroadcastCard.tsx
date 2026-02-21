@@ -3,7 +3,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 
 interface BroadcastCardProps {
-  id: number;
+  id: string;
   title: string;
   viewerCount: number;
 }

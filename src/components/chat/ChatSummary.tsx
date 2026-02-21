@@ -8,6 +8,8 @@ interface ChatSummaryProps {
 }
 
 const ChatSummary = ({ themes, className }: ChatSummaryProps) => {
+  if (!themes || themes.length === 0) return null;
+
   return (
     <div className={cn(
       "bg-[#282828] rounded-[10px] px-[20px] py-[30px] w-full flex flex-col gap-[10px]",
