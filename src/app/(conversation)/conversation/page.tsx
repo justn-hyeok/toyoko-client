@@ -13,6 +13,8 @@ import ResultModal from "@/components/conversation/ResultModal";
 import { useAuthStore } from "@/store/auth";
 import { getSocket } from "@/lib/socket";
 import type { RoomSnapshot } from "@/lib/socket/types";
+import { useQuery } from "@tanstack/react-query";
+import { roomsApi } from "@/lib/api/rooms";
 
 type Scene = "MATCHING" | "MATCHED" | "CHATTING" | "JUDGING" | "RESULT";
 
@@ -39,6 +41,12 @@ const ConversationPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [result, setResult] = useState<GameResult | null>(null);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+
+  const { data: myRanking } = useQuery({
+    queryKey: ["myRanking"],
+    queryFn: () => roomsApi.getMyRanking(accessToken!),
+    enabled: !!accessToken,
+  });
 
   const snapshotRef = useRef<RoomSnapshot | null>(null);
   const myRoleRef = useRef<"PLAYER_A" | "PLAYER_B" | null>(null);
@@ -284,7 +292,7 @@ const ConversationPage = () => {
               </div>
 
               {scene === "CHATTING" && (
-                <MessageInput currentScore={0} onSendMessage={handleSendMessage} />
+                <MessageInput currentScore={myRanking?.score ?? 0} onSendMessage={handleSendMessage} />
               )}
             </motion.div>
           )}

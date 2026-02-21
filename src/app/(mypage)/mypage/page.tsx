@@ -5,8 +5,21 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/layout/Header";
 import HistoryDetailModal from "@/components/mypage/HistoryDetailModal";
+import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "@/store/auth";
+import { roomsApi } from "@/lib/api/rooms";
 
 const MyPage = () => {
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const user = useAuthStore((s) => s.user);
+  const displayName = user?.email?.split("@")[0] ?? "사용자";
+
+  const { data: myRanking } = useQuery({
+    queryKey: ["myRanking"],
+    queryFn: () => roomsApi.getMyRanking(accessToken!),
+    enabled: !!accessToken,
+  });
+
   const chatHistory = [
     { id: 1, title: "00과 대화", status: "승리", date: "25.12.04" },
     { id: 2, title: "00과 대화", status: "승리", date: "25.12.04" },
@@ -62,7 +75,28 @@ const MyPage = () => {
       </div>
 
       <main className="relative z-10 px-4 md:px-[185px] pt-[92px] pb-[100px] max-w-[1440px] mx-auto">
-        <h2 className="text-[30px] font-bold mb-[45px]">마이페이지</h2>
+        <h2 className="text-[30px] font-bold mb-[20px]">마이페이지</h2>
+
+        {/* 내 프로필 */}
+        <div className="flex items-center gap-[30px] mb-[40px]">
+          <p className="text-[20px] font-semibold text-[#CCC]">{displayName}님</p>
+          {myRanking && (
+            <>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-[15px] text-[#999]">점수</span>
+                <span className="text-[20px] font-bold text-[#ff00b7]">{myRanking.score}</span>
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-[15px] text-[#999]">랭킹</span>
+                <span className="text-[20px] font-bold text-white">#{myRanking.rank}</span>
+              </div>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-[15px] text-[#999]">승률</span>
+                <span className="text-[20px] font-bold text-white">{Math.round(myRanking.winRate * 100)}%</span>
+              </div>
+            </>
+          )}
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-[10px]">
           {/* 대화 기록 Card */}
