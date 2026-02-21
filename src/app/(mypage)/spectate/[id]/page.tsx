@@ -133,7 +133,6 @@ const SpectatePage = () => {
         <div className="w-full max-w-[1070px] flex flex-col h-full">
           <ConversationHeader
             opponentName="실시간 대화"
-            opponentScore={snapshot?.likeCount ?? 0}
             topics={[]}
           />
 

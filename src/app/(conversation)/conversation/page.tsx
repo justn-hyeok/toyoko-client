@@ -275,7 +275,6 @@ const ConversationPage = () => {
             >
               <ConversationHeader
                 opponentName="상대방"
-                opponentScore={0}
                 topics={[]}
               />
 
